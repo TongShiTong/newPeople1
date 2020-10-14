@@ -1,0 +1,1848 @@
+<template>
+  <div class="home-page">
+    <div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu1.png" alt="">
+        <img src="@/assets/coupon/tu2.png" alt="">
+      </div>
+      <div class="coupon_box">
+        <img src="@/assets/coupon/tu3.png" alt="" @click="getCoupon(442)" v-if="!lq1">
+        <img src="@/assets/coupon/tu03.png" alt="" v-else>
+        <img src="@/assets/coupon/tu4.png" alt="" @click="getCoupon(443)" v-if="!lq2">
+        <img src="@/assets/coupon/tu04.png" alt="" v-else>
+        <img src="@/assets/coupon/tu5.png" alt="" @click="getCoupon(444)" v-if="!lq3">
+        <img src="@/assets/coupon/tu05.png" alt="" v-else>
+      </div>
+    
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu6.png" alt="">
+      </div>
+      <div class="coupon_info">
+        <img src="@/assets/coupon/tu7.png" alt="" @click="getItem1(118509)">
+        <img src="@/assets/coupon/tu8.png" alt="" @click="getItem1(117224)">
+        <img src="@/assets/coupon/tu9.png" alt="" @click="getItem1(117225)">
+        <img src="@/assets/coupon/tu10.png" alt="" @click="getItem1(120457)">
+        <img src="@/assets/coupon/tu11.png" alt="" @click="getItem1(120271)">
+        <img src="@/assets/coupon/tu12.png" alt="" @click="getItem1(120287)">
+        <img src="@/assets/coupon/tu13.png" alt="" @click="getItem1(120286)">
+        <img src="@/assets/coupon/tu14.png" alt="" @click="getItem1(117235)">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu15.png" alt="">
+      </div>
+      <div class="coupon_info">
+        <img src="@/assets/coupon/tu16.png" alt="" @click="getItem1(120259)">
+        <img src="@/assets/coupon/tu17.png" alt="" @click="getItem1(120268)">
+        <img src="@/assets/coupon/tu18.png" alt="" @click="getItem1(122177)">
+        <img src="@/assets/coupon/tu19.png" alt="" @click="getItem1(122175)">
+        <img src="@/assets/coupon/tu20.png" alt="" @click="getItem1(122171)">
+        <img src="@/assets/coupon/tu21.png" alt="" @click="getItem1(122165)">
+        <img src="@/assets/coupon/tu22.png" alt="" @click="getItem1(120430)">
+        <img src="@/assets/coupon/tu23.png" alt="" @click="getItem1(122161)">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu24.png" alt="">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu25.png" alt="" @click="getItem1(120285)">
+        <img src="@/assets/coupon/tu26.png" alt="" @click="getItem1(120283)">
+        <img src="@/assets/coupon/tu27.png" alt="" @click="getItem1(120557)">
+        <img src="@/assets/coupon/tu28.png" alt="" @click="getItem1(100028)">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu29.png" alt="">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu30.png" alt="" @click="getItem1(117223)">
+        <img src="@/assets/coupon/tu31.png" alt="" @click="getItem1(117222)">
+        <img src="@/assets/coupon/tu32.png" alt="" @click="getItem1(120390)">
+        <img src="@/assets/coupon/tu33.png" alt="" @click="getItem1(120279)">
+        <img src="@/assets/coupon/tu34.png" alt="" @click="getItem1(117256)">
+        <img src="@/assets/coupon/tu35.png" alt="" @click="getItem1(117258)">
+        <img src="@/assets/coupon/tu36.png" alt="" @click="getItem1(117259)">
+        <img src="@/assets/coupon/tu37.png" alt="" @click="getItem1(117262)">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu38.png" alt="">
+      </div>
+      <div class="cou_banner">
+        <img src="@/assets/coupon/tu39.png" alt="" @click="getItem1(120546)">
+        <img src="@/assets/coupon/tu40.png" alt="" @click="getItem1(118512)">
+        <img src="@/assets/coupon/tu41.png" alt="" @click="getItem1(118513)">
+        <img src="@/assets/coupon/tu42.png" alt="" @click="getItem1(118515)">
+        <img src="@/assets/coupon/tu43.png" alt="" @click="getItem1(118507)">
+        <img src="@/assets/coupon/tu44.png" alt="" @click="getItem1(120539)">
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getToken, setKeyData, getKeyData, getKey, setAgain, getAgain, getfrist1, getfrist2, getfrist3, setfrist1, setfrist2, setfrist3 } from "../store/user";
+import bridge from "../utils/bridge";
+// import enter from "../utils/checkFirstTime";
+import api from "../api/index";
+import moment from 'moment/moment'
+import { ImagePreview } from 'vant';
+import axis from 'axios';
+
+export default {
+  name: "Home",
+  data() {
+    return {
+      lq1: false,
+      lq2: false,
+      lq3: false,
+      tabs:['助力记录','我的奖励'],
+      tabIndex: 0,
+      commentDataList:[], //评论列表
+      isShowPop: 0,
+      dataTot: {
+        end_time:'',
+        sum:'',
+        total: ''
+      },
+      timerDs: null,
+      dowmTime: '',//倒计时
+      random: '',//随机数
+      price:'2.3',//价钱
+      multiple:'',//翻倍
+      doubleData:{
+        times: 8.1
+      },
+      getPrecentData: 92,//进度条长度，数值越大进度条越小
+      helpRecordData: [],//助力记录数据
+      rewardData: [],//我的奖励数据
+      nicknameData:{},//头像和昵称
+      link:'',//保存的key
+      popFade1: false,
+      firstTimeEnter: false,
+      hasToken: false,
+      popFade: false,
+      showWXShare: false,
+      recommendName: "",
+      item: undefined,
+      invitations: [],
+      needInviteCount: 6,
+      canReceiveCoupanMoney: 170,
+      invateShowList: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+      recentRegisters: [],
+      randomRegisterText: "",
+      coupans: [],
+      eventTimes: [],
+      waitForEvent: true,
+      currentEventIndex: 0,
+      countdownText: "",
+      countdownTimer: undefined,
+      refreshTimer: undefined
+    };
+  },
+  methods: {
+    // // 弹出惊喜弹框
+    // surprisePop() {
+    //   this.isShowPop=0;
+    // },
+    // 领取优惠券
+    getCoupon(id) {
+      const self = this;
+      let token = getToken();
+      // if(!token) {
+      //   token = 'k3Y3-Ig-Z1KrGa6sEJNkkM5D4aCm1mw0'
+      // }
+      // 没有token会报错
+      api.getCoupon(id,token).then(data => {
+        console.log(data)
+        self.$toast.success('领取成功');
+        if(id==442) {
+          self.lq1 = true
+        }
+        if(id==443) {
+          self.lq2 = true
+        }
+        if(id==444) {
+          self.lq3 = true
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getItem1(item_id) {
+      const self = this;
+      api.getItem(item_id).then(data => {
+      // api.getItem(114584).then(data => {
+        self.item = data;
+  
+      if (bridge.hasBridge()) {
+        bridge.startGoodsDetails(data.shop_id, data.item_id);
+      } else {
+        // this.$router.push("/weixin");
+        location.href = 'http://d.mengdigua.com/'
+      }
+        // self.getEventTimes();
+      });
+    },
+    // 页面状态
+    newPageStatus() {
+      let self = this;
+       api.pageStatus().then(data => {
+         if(data.status=='3') {
+          self.doubleData.price = data.sum;
+         }
+       })
+    },
+    pageStatus() {
+      let self = this;
+      // self.popFade = false;
+      api.pageStatus().then(data => {
+        // self.isShowPop = data.status
+        let n = Math.round((data.total /10000) * 100) / 100 + '万';
+        self.dataTot = data;
+        self.popFade = true;
+        self.dataTot.total = n;
+        self.link = data.key;
+        self.onShare();
+
+        setKeyData(data.key);
+        setInterval(function () {
+          self.countDownData()
+        }, 1000)
+        if(data.status=='0') {
+          self.isShowPop = 0;
+        }else if(data.status=='1') {
+          if(getAgain()) {
+            self.popFade = true;
+            let again = 0;
+            setAgain(again)
+          }else {
+            if(getfrist1()) {
+              self.popFade = false;
+            }
+          }
+          let result = self.fullClose(9.5, 9.9);
+          self.random = Math.round(result * 100) / 100
+          self.isShowPop = 1;
+          self.getPrecentData = 20;
+
+          let isfirs = "1"
+          setfrist1(isfirs)
+
+        }else if(data.status=='2') {
+          let result = self.fullClose(8.0, 10.0);
+          self.multiple = Math.round(result * 100) / 100
+           
+          if(getAgain()) {
+            self.popFade = true;
+            let again = 0;
+            setAgain(again)
+          }else {
+            if(getfrist2()) {
+              self.popFade = false;
+            }
+          }
+          self.isShowPop = 2;
+          self.getPrecentData = 18;
+          let isfirs = "1"
+          setfrist2(isfirs)
+        }else if(data.status=='3') {
+          if(getAgain()) {
+            self.popFade = true;
+            let again = 0;
+            setAgain(again)
+          }else {
+            if(getfrist3()) {
+              self.popFade = false;
+            }
+          }
+          self.doubleData.price = data.sum;
+          self.isShowPop = 3;
+          self.getPrecentData = 9;
+          let isfirs = "1"
+          setfrist3(isfirs)
+        }else if(data.status=='4') {
+          self.getPrecentData = 9;
+          self.isShowPop = 5;
+        }else if(data.status=='5') {
+          self.isShowPop=4
+          setTimeout(() => {
+            self.getPrecentData = 0;
+          }, 100);
+        }else if(data.status=='6') {
+          self.isShowPop=6
+        }
+        // console.log(data)
+      }).catch(() => {
+        // console.log(data)
+      });
+    },
+    
+    //重新开始
+    againStart(){
+      // let isfirs = 0;
+      // setfrist1(isfirs)
+      // setfrist2(isfirs)
+      // setfrist3(isfirs)
+      let again = 1;
+      setAgain(again)
+      this.popFade = true;
+      this.isShowPop=0;
+      this.getPrecentData = 92;
+    },
+    // 立即减价
+    priceReduction() {
+      // let self = this
+       if (bridge.hasBridge()) {
+        const title = "急！就差你了，助我抢1元榴莲~";
+        const desc = "点击帮TA助力一下得100元无门槛榴莲券";
+        const imgUrl =
+          "https://koali.oss-cn-hangzhou.aliyuncs.com/__liemi__/image/png/AWXZMNTHK0124569_1596790476.png";
+        // const recomendId = getUserInfo().uid;
+        // const key = self.link;
+        const key = getKeyData();
+
+        // 定义分享链接,使用encodeURIComponent对传入参数编码，防止在iOS中传入参数编码问题
+        // 此处示例传递单个参数
+        const _shareLink =
+          window.location.origin +
+          "/#?" +
+          encodeURIComponent("key") +
+          "=" +
+          encodeURIComponent(key);
+        bridge.shareWechat(title, desc, imgUrl, _shareLink);
+      }else {
+        this.showWXShare = true;
+        this.popFade1 = true;
+      }
+    },
+    // 立即翻倍
+    doubleNow() {
+      let self = this
+      if (bridge.hasBridge()) {
+        const title = "急！就差你了，助我抢1元榴莲~";
+        const desc = "点击帮TA助力一下得100元无门槛榴莲券";
+        const imgUrl =
+          "https://koali.oss-cn-hangzhou.aliyuncs.com/__liemi__/image/png/AWXZMNTHK0124569_1596790476.png";
+        // const recomendId = getUserInfo().uid;
+        const key = getKeyData();
+        // const key = self.link;
+
+        // 定义分享链接,使用encodeURIComponent对传入参数编码，防止在iOS中传入参数编码问题
+        // 此处示例传递单个参数
+        const _shareLink =
+          window.location.origin +
+          "/#?" +
+          encodeURIComponent("key") +
+          "=" +
+          encodeURIComponent(key);
+        bridge.shareWechat(title, desc, imgUrl, _shareLink);
+        api.actionDouble().then(data => {
+          
+          setTimeout(()=>{
+            self.popFade = true;
+            self.isShowPop = 3;
+            self.getPrecentData = 9;
+          },3000)
+          let isfirs = "1"
+          setfrist3(isfirs)
+          self.doubleData = data
+          // localStorage.setItem("doubleData", self.doubleData);
+        })
+      }else {
+        let self = this
+        this.showWXShare = true;
+        this.popFade1 = true;
+        api.actionDouble().then(data => {
+          // self.popFade = true;
+          // self.isShowPop = 3;
+          // setTimeout(()=>{
+          //   self.getPrecentData = 9;
+          // },100)
+          // console.log(data)
+          self.doubleData = data
+          // localStorage.setItem("doubleData", self.doubleData);
+          let isfirs = "1"
+          setfrist3(isfirs)
+          
+        }).catch(() => {
+          // console.log(data)
+        });
+      }
+    },
+    // 助力记录
+    actionList() {
+      let self = this;
+      api.actionList().then(data => {
+        self.helpRecordData = data;
+      }).catch(() => {
+        // console.log(data)
+      }); 
+    },
+    // 优惠券详情
+    couponList() {
+      let self = this
+      api.couponList().then(data => {
+        // console.log(data)
+        if(data[0].is_accept==0) {
+          self.lq1 = false
+        }else {
+          self.lq1 = true
+        }
+        if(data[1].is_accept==0) {
+          self.lq2 = false
+        }else {
+          self.lq2 = true
+        }
+        if(data[2].is_accept==0) {
+          self.lq3 = false
+        }else {
+          self.lq3 = true
+        }
+      }).catch(() => {
+        // console.log(data)
+      }); 
+      // axis.post('http://192.168.5.98:8087/coupon/coupon-templet-api/coupon-details',{ids:['442','443','444']})//axis后面的.get可以省略；
+      //   .then(
+      //       (response) => {
+      //         console.log(response);
+      //         this.data = response;
+      //       })
+      //   .catch(
+      //       (error) => {
+      //         console.log(error);
+      //   });
+
+    },
+    // 奖励列表
+    rewardList() {
+      let self = this;
+      api.rewardList().then(data => {
+        for(let i=0;i<data.length;i++) {
+          data[i].rule = JSON.parse(data[i].rule)
+          data[i].start_time = data[i].start_time.slice(0,-9).replace(/-/g,"/")
+          data[i].end_time = data[i].end_time.slice(0,-9).replace(/-/g,"/")
+        }
+        self.rewardData = data;
+        // console.log(self.rewardData)
+      }).catch(() => {
+        // console.log(data)
+      }); 
+    },
+
+    // 生成随机数
+    fullClose(n, m) {
+        var result = Math.random() * (m + 1 - n) + n;
+        while (result > m) {
+            result = Math.random() * (m + 1 - n) + n;
+        }
+        return result;
+    },
+    // 立即加速
+    acceleRate() {
+      let self = this;
+      api.speedUp().then(data => {
+        let result = self.fullClose(9.5, 9.9);
+        self.random = Math.round(result * 100) / 100
+        self.popFade = true;
+        self.isShowPop = 1;
+        self.dataTot.end_time = data.end_time;
+        setKeyData(data.key);
+        setInterval(function () {
+          self.countDownData()
+        }, 1000)
+        setTimeout(()=>{
+          self.getPrecentData = 20;
+        },100)
+        let isfirs = "1"
+        setfrist1(isfirs)
+        // console.log(data)
+      }).catch(() => {
+        // console.log(data)
+      });
+    },
+    // 点击tabs
+    bandTabs(index) {
+      this.tabIndex = index
+      if(index==0) {
+        this.actionList();
+      }else if(index==1) {
+        this.rewardList();
+      }
+    },
+    imgPreview(index) {
+      let imgList = []
+      imgList = this.commentDataList[index].meCommetImgs
+      ImagePreview(imgList);
+    },
+    // 24小时倒计时
+    countDownData() {
+      // 目标日期时间戳
+      let self = this
+      let endTime = self.dataTot.end_time.replace(/-/g,"/")
+      // console.log(123,endTime)
+      const end = Date.parse(new Date(endTime))
+      // 当前时间戳
+      const now = Date.parse(new Date())
+      // var end = new Date(new Date().getTime() + 24*60*60*1000); //后一天
+      // 相差的毫秒数
+      const msec = end - now
+      // 计算时分秒数
+      // let day = parseInt(msec / 1000 / 60 / 60 / 24)
+      let hr = parseInt(msec / 1000 / 60 / 60 % 24)
+      let min = parseInt(msec / 1000 / 60 % 60)
+      let sec = parseInt(msec / 1000 % 60)
+      // 个位数前补零
+      hr = hr > 9 ? hr : '0' + hr
+      min = min > 9 ? min : '0' + min
+      sec = sec > 9 ? sec : '0' + sec
+      // 控制台打印
+      if(msec>=0) {
+        this.dowmTime = `${hr}:${min}:${sec} 后过期`
+      }else {
+        this.dowmTime = "已过期"
+      }
+      
+      // console.log(`${day}天 ${hr}小时 ${min}分钟 ${sec}秒`)
+      // 一秒后递归
+    },
+    toLogin() {
+      if (bridge.hasBridge()) {
+        bridge.startLogin();
+      } else {
+        let obj = {}
+        let key = getKey();
+        obj.key = key
+        // this.$router.push("/login?key=" + key);
+        // console.log(obj)
+        this.$router.push({path:'/login',query: obj}).catch(err => {err});
+      }
+    },
+    toRule() {
+      this.$router.push("/rule");
+    },
+    toWeixin() {
+      if (bridge.hasBridge()) {
+        bridge.startGoodsDetails(this.item.shop_id, this.item.item_id);
+      } else {
+        // this.$router.push("/weixin");
+        location.href = 'http://d.mengdigua.com/'
+      }
+    },
+    closePopFade() {
+      this.popFade = false;
+    },
+    // 微信分享
+    // wxOnShare() {
+    //   api.onShare().then(data => {
+    //     console.log(data)
+    //   }).catch(() => {
+    //     // console.log(data)
+    //   });
+    // },
+    showWXSharePopFade() {
+      let self = this
+      if (bridge.hasBridge()) {
+        const title = "急！就差你了，助我抢1元榴莲~";
+        const desc = "点击帮TA助力一下得100元无门槛榴莲券";
+        const imgUrl =
+          "https://koali.oss-cn-hangzhou.aliyuncs.com/__liemi__/image/png/AWXZMNTHK0124569_1596790476.png";
+        // const recomendId = getUserInfo().uid;
+        const key = getKeyData();
+        // const key = self.link;
+
+        // 定义分享链接,使用encodeURIComponent对传入参数编码，防止在iOS中传入参数编码问题
+        // 此处示例传递单个参数
+        const _shareLink =
+          window.location.origin +
+          "/#?" +
+          encodeURIComponent("key") +
+          "=" +
+          encodeURIComponent(key);
+        bridge.shareWechat(title, desc, imgUrl, _shareLink);
+        api.onShare().then(data => {
+          let result = self.fullClose(8.0, 10.0);
+          self.multiple = Math.round(result * 100) / 100
+          self.price = data.price;
+          localStorage.setItem("priceShare", self.price);
+          
+          setTimeout(()=>{
+            self.popFade = true;
+            self.isShowPop = 2;
+            self.getPrecentData = 18;
+          },3000)
+          let isfirs = "1"
+          setfrist2(isfirs)
+          if(data.errcode==30001) {
+              self.pageStatus();
+          }
+        })
+      } else {
+        // this.firstTimeEnter = false;
+        let self = this;
+        this.showWXShare = true;
+        this.popFade1 = true;
+        api.onShare().then(data => {
+          // console.log(data)
+            let result = self.fullClose(8.0, 10.0);
+            self.multiple = Math.round(result * 100) / 100
+            self.price = data.price;
+            localStorage.setItem("priceShare", self.price);
+            let isfirs = "1"
+            setfrist2(isfirs)
+            // self.popFade = true;
+            // self.isShowPop = 2;
+            // self.getPrecentData = 18;
+            // if(data.errcode==30001) {
+            //    self.pageStatus();
+            // }
+        });
+        // let self = this
+        // this.popFade = true;
+        // this.isShowPop=2
+        // setTimeout(() => {
+        //   self.getPrecentData = 6;
+        // }, 100);
+      }
+    },
+    closeWXSharePopFade() {
+      this.showWXShare = false;
+      this.popFade1 = false;
+    },
+    getItem() {
+      const self = this;
+      api.getItem(118316).then(data => {
+      // api.getItem(114584).then(data => {
+        self.item = data;
+        // self.getEventTimes();
+      });
+    },
+    getRecentRegisters: function() {
+      const self = this;
+      api.getRecentRegisters().then(data => {
+        self.recentRegisters = data;
+        const randomElement = data[Math.floor(Math.random() * data.length)];
+        this.randomRegisterText = `用户${randomElement.nickname}已参与了抢购`;
+      });
+    },
+    getInvitations: function() {
+      const self = this;
+      api.getInvitations().then(data => {
+        if (data) {
+          self.invitations = data;
+          const emptyList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+          const showList = [...self.invitations, ...emptyList].slice(0, 10);
+          self.invateShowList = showList;
+          const length = data.length;
+          if (length < 6) {
+            self.needInviteCount = 6 - length;
+            self.canReceiveCoupanMoney = 170;
+          } else if (length < 10) {
+            self.needInviteCount = 10 - length;
+            self.canReceiveCoupanMoney = 190;
+          }
+        }
+      });
+    },
+    getCoupans: function() {
+      const self = this;
+      api.getCoupons(118316, "item", 9).then(data => {
+        self.coupans = data.list;
+      });
+    },
+    commentList: function() {
+      const self = this;
+      api.commentList().then(data => { 
+        for(let i=0;i<data.list.length;i++) {
+          data.list[i].level = Number(data.list[i].level)
+          data.list[i].create_time = data.list[i].create_time.slice(0,-9)
+          if(data.list[i].u.nickname.length>2) {
+            let str = data.list[i].u.nickname
+            let num = str.length;
+            let a = str[0];
+            for(let i=0;i<num-2;i++) {
+              a+='*'
+            }
+            a+=str[num-1]
+            data.list[i].u.nickname = a
+          }else {
+            let str = data.list[i].u.nickname
+            data.list[i].u.nickname = data.list[i].u.nickname.replace(str.substr(1,1),'*')
+          }
+        }
+        self.commentDataList = data.list
+      });
+    },
+    canReceiveCoupan: function(coupan) {
+      if (coupan.discount_num == 170) {
+        return this.invitations.length >= 6;
+      }
+      if (coupan.discount_num == 190) {
+        return this.invitations.length >= 10;
+      }
+      return true;
+    },
+    receiveCoupan: function(coupanId) {
+      const self = this;
+      api.receiveCoupon(coupanId).then(data => {
+        self.getCoupans();
+        console.log(data);
+      });
+    },
+    getEventTimes: function() {
+      const self = this;
+      api.getEventTimes().then(data => {
+        self.eventTimes = data;
+        self.getCurrentDateIndex();
+        self.setCountdownTimer();
+      });
+    },
+    peekEventTimes: function(mapEventTimes, index) {
+      if (index + 1 >= mapEventTimes.length - 1) {
+        return false;
+      } else {
+        const item = mapEventTimes[index + 1];
+        const time = Date.parse(item);
+        const currentTime = new Date().getTime();
+        return currentTime > time;
+      }
+    },
+    getCurrentDateIndex: function() {
+      if (this.eventTimes.length > 0) {
+        let index = 0;
+        const mapEventTimes = this.eventTimes.map(t => `2020/${t}`);
+        for (const item of mapEventTimes) {
+          const time = Date.parse(item);
+          const currentTime = new Date().getTime();
+          if (currentTime < time) {
+            if (this.item.stock === 0) {
+              index += 1;
+            }
+            break;
+          } else {
+            if (!this.peekEventTimes(mapEventTimes, index)) {
+              if (this.item.stock > 0) {
+                this.waitForEvent = false;
+                break;
+              }
+            }
+            index += 1;
+          }
+        }
+        if (index > this.eventTimes.length - 1) {
+          index = this.eventTimes.length - 1;
+        }
+        this.currentEventIndex = index;
+        this.sliceEventTimes();
+      } else {
+        this.currentEventIndex = 0;
+      }
+    },
+    sliceEventTimes() {
+      if (this.eventTimes.length > 0) {
+        const index = this.currentEventIndex;
+        const length = this.eventTimes.length;
+        if (index + 4 <= length - 1) {
+          this.currentEventIndex = 0;
+          this.eventTimes = this.eventTimes.slice(index, index + 4);
+        } else {
+          const pad = index + 4 - (length - 1);
+          const newIndex = index - pad;
+          this.currentEventIndex = pad;
+          this.eventTimes = this.eventTimes.slice(newIndex, newIndex + 4);
+        }
+      } else {
+        return this.eventTimes;
+      }
+    },
+    getCountdownText: function() {
+      let that = this
+      if (this.waitForEvent && this.eventTimes.length > 0) {   
+        let timeData = "2020/" + that.eventTimes[that.currentEventIndex];
+
+        let currentTimedata = new Date(timeData);
+        let time = moment(currentTimedata).valueOf();
+
+        const newCurrentTime = new Date()
+        const currentTime = moment(newCurrentTime).valueOf();
+        let countdown = time - currentTime;
+        const hour = Math.floor(countdown / 3600000);
+        countdown = countdown % 3600000;
+        const min = Math.floor(countdown / 60000);
+        countdown = countdown % 60000;
+        const second = Math.floor(countdown / 1000).toFixed(0);
+
+        this.countdownText = `距离开始还剩 <span>${hour}</span> 小时 <span>${min}</span> 分 <span>${second}</span> 秒`;
+      } else {
+        this.countdownText = "正在抢购中";
+      }
+    },
+    transformTime(t){
+        //利用moment工具生成date对象
+        let date = moment(t).toDate()
+        //变成秒级时间戳
+        console.log('date1:'+ date)
+        return moment(date).valueOf()
+    },
+    splitTime0: function(time) {
+      return time.split(" ")[0];
+    },
+    splitTime1: function(time) {
+      return time.split(" ")[1];
+    },
+    setCountdownTimer: function() {
+      if (!this.countdownTimer) {
+        const self = this;
+        this.countdownTimer = setInterval(() => {
+          self.getCountdownText();
+          if (!(self.waitForEvent && self.eventTimes.length > 0)) {
+            clearInterval(self.countdownTimer);
+            self.countdownTimer = undefined;
+          }
+        }, 1000);
+      }
+    },
+
+    setRefreshTimer: function() {
+      if (!this.refreshTimer) {
+        const self = this;
+        this.refreshTimer = setInterval(() => {
+          self.init();
+        }, 10000);
+      }
+    },
+    init: function() {
+      this.getItem();
+      this.getInvitations();
+      this.getRecentRegisters();
+      this.getCoupans();
+      if (!this.refreshTimer) {
+        this.setRefreshTimer();
+      }
+    },
+    onShare() {
+      // 传入后台签名URL，域名+当前分享页面路径
+      const _WXurl = window.location.origin + window.location.pathname;
+      const wx = window.wx;
+      let self = this;
+      //向后台发起请求获得config配置参数
+      api
+        .wxShare(_WXurl)
+        .then(data => {
+          // console.log(123,data)
+          if (data) {
+            // 请求接口成功后，
+            // 配置config
+            wx.config({
+              // 开启调试模式时,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+              debug: false,
+              // 后台返回之前获取的appId
+              appId: data.appid,
+              // 必填，生成签名的时间戳
+              timestamp: data.timestamp,
+              // 必填，生成签名的随机串
+              nonceStr: data.nonceStr,
+              // 必填，签名，见附录1
+              signature: data.signature,
+              // 必填，需要使用的JS接口列表，所有JS接口列表见附录3
+              jsApiList: [
+                "checkJsApi",
+                "onMenuShareTimeline",
+                "onMenuShareAppMessage",
+                "hideMenuItems"
+              ]
+            });
+
+            // 微信检查接口列表
+            wx.checkJsApi({
+              jsApiList: [
+                "onMenuShareTimeline",
+                "onMenuShareAppMessage",
+                "hideMenuItems"
+              ], // 需要检测的JS接口列表
+              success: function(res) {
+                console.log(123,res);
+              }
+            });
+
+            // 隐藏微信右上角弹出菜单中部分功能按钮
+            wx.hideMenuItems({
+              menuList: [
+                "menuItem:share:qq",
+                "menuItem:share:QZone",
+                "menuItem:share:weiboApp",
+                "menuItem:copyUrl"
+              ], // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录4
+              success: function(res) {
+                console.log(456,res);
+     
+              }
+            });
+
+            // 页面加载完成后用户就有可能调用微信的分享，所以当页面ready 完后就加载
+            wx.ready(function() {
+              const title = "急！就差你了，助我抢1元榴莲~";
+              const desc = "点击帮TA助力一下得100元无门槛榴莲券";
+              const imgUrl =
+                "https://koali.oss-cn-hangzhou.aliyuncs.com/__liemi__/image/png/AWXZMNTHK0124569_1596790476.png";
+              // const recomendId = getUserInfo().uid;
+              const key = getKeyData();
+
+              // 定义分享链接,使用encodeURIComponent对传入参数编码，防止在iOS中传入参数编码问题
+              // 此处示例传递单个参数
+              const _shareLink =
+                window.location.origin +
+                "/#?" +
+                encodeURIComponent("key") +
+                "=" +
+                encodeURIComponent(key);
+        
+              // 分享到朋友圈
+              wx.onMenuShareTimeline({
+                // 分享标题
+                title: title,
+                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                link: _shareLink,
+                // 分享图标
+                imgUrl: imgUrl,
+                // 用户确认分享后执行的回调函数
+                success: function() {
+                  console.log("分享回调函数");
+                  console.log("shareLink= " + _shareLink);
+                  self.showWXShare = false;
+                  self.popFade1 = false;
+                  self.pageStatus();
+                },
+                // 用户取消分享后执行的回调函数
+                cancel: function() {
+                  console.log("取消分享回调函数");
+                  // alert('取消分享回调函数');
+                }
+              });
+
+              // 分享好友
+              wx.onMenuShareAppMessage({
+                // 分享标题
+                title: title,
+                // 分享描述
+                desc: desc,
+                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                link: _shareLink,
+                // 分享图标
+                imgUrl: imgUrl,
+                // 用户确认分享后执行的回调函数
+                success: function() {
+                  console.log("分享好友回调函数");
+                  console.log("shareLink= " +  _shareLink);
+                  // alert('分享回好友调函数');
+                  self.showWXShare = false;
+                  self.popFade1 = false;
+                  self.pageStatus();
+
+                },
+                // 用户取消分享后执行的回调函数
+                cancel: function() {
+                  console.log("取消分享好友调函数");
+                  // alert('取消分享回调函数');
+                  // console.log('分享回好友调函数');
+                }
+              });
+            });
+            // 微信预加载失败回调
+            wx.error(function(res) {
+              console.log(res);
+              alert('失败');
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    // 获取进入时的头像昵称
+    actionKeyUser() {
+      let key = getKey();
+      let self = this;
+      api.actionKeyUser(key).then(data => {
+        // console.log(147,data)
+        self.nicknameData = data
+      }).catch(() => {
+        // console.log(data)
+      }); 
+    },
+    isMobile() {
+
+      if(this.isIos() && this.isAndroid()) {
+        return true
+      }else {
+        return false
+      }
+    },
+    // 判断是iosApp
+    isIos() {
+        var result;
+        var rgx= new RegExp('iphone|ipad|ipod', 'i');
+        var rgx2 = /app\/(\d+).(\d+)?/;
+        if(rgx.test(window.navigator.platform) &&  rgx2.test(window.navigator.userAgent)){
+            result = true;
+
+        } else {
+            result = false;
+        }
+        window.sessionStorage.isApp = result;
+        return result;
+    },
+    // 判断AndroidApp
+    isAndroid() {
+      var result;
+      var  rgx= new RegExp('linux', 'i');
+      var rgx2 = /app\/(\d+).(\d+)?/;
+      if ( rgx.test(window.navigator.platform) &&  rgx2.test(window.navigator.userAgent)) {
+          result = true;
+
+      } else {
+          result = false;
+      }
+      window.sessionStorage.isApp = result;
+      return result;
+    }
+  },
+
+  computed: {
+    getItemName: function() {
+      if (this.item) {
+        return this.item.title;
+      } else {
+        return "马来西亚猫山王榴莲1.1～1.3kg";
+      }
+    },
+    getStock: function() {
+      if (this.item) {
+        return this.item.stock;
+      } else {
+        return 0;
+      }
+    },
+    getPrecent: function() {
+      if (this.item) {
+        return Math.round((this.item.stock / 500)*100);
+      } else {
+        return 100;
+      }
+    },
+    getRecommendName: function() {
+      if (this.recommendName.length <= 4) {
+        return this.recommendName;
+      } else {
+        return this.recommendName.slice(0, 3) + "...";
+      }
+    }
+  },
+  created: function() {
+
+    const self = this;
+    self.couponList()
+    // this.actionKeyUser();
+    // this.commentList();
+    // this.getItem()
+    // this.actionList();
+    // this.rewardList();
+    // localStorage.getItem("priceShare");
+
+
+    // // localStorage.getItem("doubleData");
+    
+    // // const key = getKey();
+
+    function init() {
+      const token = getToken();
+      if (token) {
+        
+      }else {
+        self.toLogin();
+      }
+
+    }
+    if (bridge.hasBridge()) {
+      bridge.getUserInfo(init);
+    } else {
+      // init();
+      // var ua = window.navigator.userAgent.toLowerCase();
+      // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+      //   // alert('微信浏览器')
+      //   console.log('微信浏览器端')
+      // } else {
+        self.$router.push("/tips");
+      // }
+    }
+  },
+//   beforeDestroy() {
+//     let self = this
+//     if(self.timerDs) {
+// 　　　　clearInterval(self.timerDs); //关闭
+// 　　 }  //利用vue的生命周期函数
+//   }
+  
+};
+</script>
+<style>
+
+  
+  .cou_banner img {
+    width: 100%;
+    display: block;
+  }
+  .coupon_box {
+    display: flex;
+    width: 100%;
+  }
+  .coupon_box img {
+    width: 33.3%;
+    height: 2.42rem;
+  }
+  .coupon_info {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .coupon_info img {
+    width: 50%;
+    height: 4.58rem;
+  }
+  .picture-box {
+    height: 2.25rem;
+    position: relative;
+  }
+  .picture {
+    width: 9.375rem;
+    height: 9.375rem;
+    margin: 0 auto;
+    background: #D8D8D8;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform:translate(-50%,0)
+  }
+  .sp_title {
+    position: absolute;
+    bottom: 0.625rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 21.6875rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+    color: #414141;
+    font-weight: bold;
+    text-align: center;
+    line-height: 2rem;
+    background: rgba(255,255,255,0.59);
+    border-radius: 1.1875rem;
+  }
+  .progress_info {
+    /* width: 21.6875rem; */
+    /* height: 12.5rem; */
+    margin: 0.625rem 0.875rem 0;
+    background: url(../assets/bargain/bg0032x.png) no-repeat;
+    background-size: 100% 100%;
+    border-radius: 0.6875rem;
+    position: relative;
+    padding: 0 1.5rem 1.375rem;
+  }
+  .swipe-box {
+    margin:0 auto;
+    width: 10.6875rem;
+    height: 1.8125rem;
+    overflow: hidden;
+    text-align: center;
+    /* background: #FFE7CA; */
+    border-bottom-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    line-height: 1.8125rem;
+    font-size: 0.875rem;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .point {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #222222;
+    font-weight: bold;
+    margin: 1.1875rem auto 1.4375rem;
+  }
+  .point span {
+    font-size: 1.375rem;
+    color: #FF3D13;
+  }
+
+  .progress-bar {
+    position: relative;
+    /* width: 17.5rem; */
+    height: 0.875rem;
+    background: #f0f0f0;
+    border-radius: 0.5rem;
+    margin: 0 0.625rem;
+  }
+  .cur1 {
+    background:linear-gradient(270deg,rgba(255,109,1,1) 0%,rgba(255,209,0,1) 100%);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0.875rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: width 1s;
+  }
+  .btn-lj {
+    /* width: 18.75rem; */
+    animation:mymove 1s infinite;
+    -webkit-animation:mymove 1s infinite;
+    transform:scale(1);
+    height: 2.6875rem;
+    margin: 0 auto;
+    background: url("../assets/bargain/btn2x.png") no-repeat;
+    background-size: 100% 100%;
+    font-size: 1.125rem;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 2.6875rem;
+    margin-top: 1.25rem;
+  }
+  @keyframes mymove
+  {
+    0% {transform:scale(1);}
+    50% {transform:scale(1.05);}
+    100% {transform:scale(1);}
+  }
+
+  @-webkit-keyframes mymove /*Safari and Chrome*/
+  {
+    0% {transform:scale(1);}
+    50% {transform:scale(1.1);}
+    100% {transform:scale(1);}
+  }
+  .yiyuan {
+    position: absolute;
+    right: 0.25rem;
+    top: 40.8%;
+    width: 2.375rem;
+    height: 2.375rem;
+  }
+  .yiyuan img {
+    width: 100%;
+    height: 100%;
+  }
+  .tabs-box {
+    background: #FFFAF2;
+    /* width: 21.6875rem; */
+    margin: 1.25rem 0.875rem 0;
+    border-radius: 0.625rem;
+    overflow: hidden;
+  }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 3.75rem;
+    background: #FF8000;
+    line-height: 3.75rem;
+    position: relative;
+  }
+  .tab-item {
+    width: 50%;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .tab-item1 {
+    width: 50%;
+    text-align: center;
+    font-size: 1rem;
+    color: #FFFFFF;
+    font-weight: bold;
+  }
+  .line-fg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(50%,-50%);
+    width: 1px;
+    height: 1.5625rem;
+    background: #FFFFFF;
+  }
+  .sanjiao {
+    width: 1.375rem;
+    height: 0.75rem;
+    /* border: 0.75rem solid; */
+    /* border-color: transparent transparent #ffffff; */
+    background: url(../assets/bargain/sjjt.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    left: 25%;
+    bottom: -1px;
+    transform: translate(-50%,0%);
+    transition: left 0.3s;
+  }
+  .sanjiao1 {
+    width: 1.375rem;
+    height: 0.75rem;
+    /* border: 0.75rem solid;
+    border-color: transparent transparent #ffffff; */
+    background: url(../assets/bargain/sjjt.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    left: 75%;
+    bottom: -1px;
+    transform: translate(-50%,0%);
+    transition: left 0.3s;
+  }
+  .record {
+    padding: 1rem 1.5rem 0.75rem;
+    box-sizing: border-box;
+    height: 22.5rem;
+    position: relative;
+  }
+  .zanwu {
+    font-size: 0.875rem;
+    color: #222222;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 3.125rem;
+  }
+  .record-user {
+    height: 3.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .avatar-record {
+    display: flex;
+    align-items: center;
+  }
+  .record-name {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #222222;
+  }
+  .zlcg {
+    font-size: 0.75rem;
+    color: #666666;
+  }
+  .record-time {
+    font-size: 0.75rem;
+    color: #FF3D13;
+  }
+  .record-time img {
+    width: 1.125rem;
+    height: 1.125rem;
+    vertical-align: middle;
+  }
+  .total-num {
+    width: 100%;
+    font-size: 0.6875rem;
+    color: #999999;
+    text-align: center;
+    position: absolute;
+    transform: translate(-1.5rem,0);
+    bottom: 0.75rem;
+  }
+  .my-reward {
+    height: 22.5rem;
+    padding: 0.6875rem 1rem 0.75rem;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .reward-box {
+    background: #FFEBD6;
+    border-radius: 0.375rem;
+    margin-top: 0.75rem;
+    height: 5.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.75rem;
+    position: relative;
+  }
+  .sjdp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5.0625rem;
+    height: 0.9375rem;
+  }
+  .nom {
+    color: #FE5E29;
+    font-size: 0.625rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  .coupon {
+    font-size: 2.125rem;
+    color: #FE5E29;
+    font-weight: bold;
+    margin-right: 0.75rem;
+  }
+  .coupon span {
+    font-size: 0.875rem;
+  }
+  .coupon-info {
+    /* width: 9.625rem; */
+    /* font-size: 0.625rem; */
+    margin-right: 0.5rem;
+  }
+  .coupon-btn {
+    width: 3.75rem;
+    height: 1.5rem;
+  }
+  .coupon-btn img {
+    width: 100%;
+    height: 100%;
+  }
+  .cou-tit {
+    font-size: 0.6875rem;
+    color: #FE5E29;
+    font-weight: bold;
+  }
+  .cou-cont {
+    font-size: 0.5625rem;
+    color: #999999;
+    margin-top: 0.3125rem;
+  }
+  .cou-time {
+    font-size: 0.5625rem;
+    color: #999999;
+  }
+  .youhui {
+    width: 100%;
+    font-size: 0.6875rem;
+    color: #999999;
+    text-align: center;
+    position: absolute;
+    transform: translate(-0.9375rem,0);
+    bottom: 0.75rem;
+  }
+
+  .title-img {
+    /* width: 21.6875rem; */
+    /* height: 2.8125rem; */
+    margin: 0.8125rem 0.875rem 0.625rem;
+  }
+  .title-img img {
+    width: 100%;
+    height: 100%;
+  }
+  .comment {
+    /* width: 21.6875rem; */
+    height: 14.375rem;
+    border-radius: 0.625rem;
+    background: #FFFAF2;
+    margin: 0 0.875rem;
+    padding: 1.25rem 1.5rem 0.5rem;
+    box-sizing: border-box;
+  }
+  .info-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0.75rem;
+  }
+  .avatar-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    /* background: #e4e4e4; */
+    margin-right: 0.5rem;
+    overflow: hidden;
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+  }
+  .info-name {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #222222;
+  }
+  .van-rate__item:not(:last-child) {
+    padding-right: 0;
+  }
+  .info-time {
+    font-size: 0.625rem;
+    color: #999999;
+    padding-bottom: 0.3125rem;
+  }
+  .info-content {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #222222;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pl-box {
+    display: flex;
+    align-items: center;
+  }
+  .pl-img {
+    width: 5.75rem;
+    height:5.75rem;
+    margin: 0.625rem 0.6875rem 0.625rem 0;
+    background: #E8E8E8;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+  .pl-img img {
+    width: 100%;
+    height: 100%;
+  }
+  .pl-img:last-child {
+    margin-right: 0;
+  }
+
+  .detail-box1{
+    /* width: 21.6875rem; */
+    margin: 0 0.875rem;
+    box-shadow:0px 10px 20px 0px rgba(255,233,196,1);
+    border-radius:0.625rem;
+    overflow: hidden;
+  }
+  .detail-box1 img {
+    width: 100%;
+    display: block;
+  }
+  .surprise-bg {
+    width: 100%;
+    height: 22.0625rem;
+    background: url(../assets/bargain/tc_012x.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .surprise {
+    width:19.4375rem;
+    height:16.6875rem;
+    background: #FFF3DA;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 0.875rem;
+  }
+  .surprise-title {
+    width: 10rem;
+    height: 3.25rem;
+    margin: -0.5rem auto 0;
+    background: url(../assets/bargain/hear-bg.png) no-repeat;
+    background-size: 100% 100%;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #101112;
+    text-align: center;
+    line-height: 3.25rem;
+  }
+  .cloose-pop {
+    position: absolute;
+    top: -0.9375rem;
+    right: -0.9375rem;
+    width: 1.875rem;
+    height: 1.875rem;
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 0.25rem;
+    box-sizing: border-box;
+  }
+  .cloose-pop img {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+  .surprise-info {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #101112;
+    text-align: center;
+    margin: 0.75rem auto 2rem;
+  }
+  .surprise-info span {
+    font-size: 1.875rem;
+    color: #FF3D13;
+    font-weight: bold;
+  }
+
+  .progress-bar-surprise {
+    position: relative;
+    width: 13.5625rem;
+    height: 0.8125rem;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    margin: 0 auto 0.9375rem;
+  }
+  .cur1-surprise {
+    background:linear-gradient(270deg,rgba(255,109,1,1) 0%,rgba(255,209,0,1) 100%);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0.8125rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: width 1s;
+  }
+  .tish-surprise {
+    position: absolute;
+    right: -2.3125rem;
+    top: -1.55rem;
+    font-size: 0.75rem;
+    color: #ffffff;
+    line-height: 1rem;
+    background: #FF3D13;
+    padding: 0.125rem 0.875rem;
+    border-radius: 0.6875rem;
+  }
+  .tish-surprise1 {
+    position: absolute;
+    right: -1.75rem;
+    top: -1.5rem;
+    font-size: 0.75rem;
+    color: #ffffff;
+    line-height: 1rem;
+    background: #FF3D13;
+    padding: 0.125rem 0.875rem;
+    border-radius: 0.6875rem;
+  }
+  .zs-sj {
+    width: 1.125rem;
+    height: 0.3125rem;
+    position: absolute;
+    top: -0.3125rem;
+    right: 0;
+  }
+  .liji-js {
+    background: #ffffff;
+    width: 100%;
+    border-radius: 0.875rem;
+    color: #101112;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.875rem 0 1.25rem;
+    position: absolute;
+    bottom: 0;
+  }
+  .surprise-btn {
+    width: 15.8125rem;
+    height: 3rem;
+    background:linear-gradient(270deg,rgba(255,143,63,1) 0%,rgba(255,78,80,1) 100%);
+    border-radius: 1.875rem;
+    margin: 0.875rem auto 0;
+    line-height: 3rem;
+    font-size: 1.4375rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .toux-box {
+    margin: 0 1.875rem 0.8125rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toux {
+    width: 2.625rem;
+    height: 2.625rem;
+    background: #E8E8E8;
+    border-radius: 50%;
+  }
+  .toux img {
+    width: 100%;
+    height: 100%;
+  }
+  .wumengkan {
+    width: 17.0625rem;
+    height: 4.875rem;
+    margin: 0 auto 0.875rem;
+    /* border: 1px solid #FF7040; */
+    background: #FFEBD6;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    padding: 0.9375rem 0 1rem 1.1875rem;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .smzgy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4.625rem;
+    height: 0.8125rem;
+    background: url(../assets/bargain/smzgy.png) no-repeat;
+    background-size: 100% 100%;
+    font-size: 0.5rem;
+    color: #FE5E29;
+    font-weight: bold;
+  }
+  .kuang {
+    font-size: 0.5625rem;
+    color: #999999;
+    font-weight: 400;
+    text-align: left;
+  }
+  .jj-title {
+    font-size: 0.8125rem;
+    color: #FE5E29;
+    font-weight: bold;
+  }
+  .jj-cont {
+    font-size: 0.5625rem;
+    color: #999999;
+    margin-top: 0.3125rem;
+  }
+  .money {
+    font-size: 1.75rem;
+    color: #FE5E29;
+    font-weight: bold;
+    margin-right: 1.5rem;
+  }
+  .money span {
+    font-size: 0.875rem;
+  }
+  .jieshu {
+    text-align: center;
+    font-size: 0.9375rem;
+    color: #101112;
+    font-weight: 600;
+    margin-top: 2.1875rem;
+  }
+  .scss-bg {
+    width: 100%;
+    height: 32.1875rem;
+    background: url(../assets/bargain/bgzlcg2x.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .raise {
+    width:19.4375rem;
+    height:22.1875rem;
+    background:url(../assets/bargain/bgzlz2x.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 0.875rem;
+  }
+  .raise-title {
+    width: 7.125rem;
+    height: 3.5625rem;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    top: -3.5rem;
+    z-index: -1;
+    /* margin: -2.6875rem auto 0; */
+    background: #FFE3B3;
+    /* border-radius: 50%; */
+    border-top-left-radius: 3.5625rem;
+    border-top-right-radius: 3.5625rem;
+    /* border: 0.1875rem solid #FFF3DA; */
+  }
+  .zhuli-avatar {
+    width: 6.625rem;
+    height: 6.625rem;
+    margin: -3.25rem auto 0;
+    background: #a0a0a0;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .zhuli-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .youhu-name {
+    font-size: 1.125rem;
+    text-align: center;
+    color: #101112;
+    font-weight: bold;
+    margin: 0.75rem auto 0.8125rem;
+  }
+  .youhu-name1 {
+    margin: 0.5rem auto 0.375rem;
+    text-align: center;
+  }
+  .youhu-name1 img {
+    width: 8.1875rem;
+  }
+  .zlz-tu {
+    width: 17.5625rem;
+    height: 11.375rem;
+    margin: 0 auto;
+    background: url(../assets/bargain/zhulizhe.png) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+  }
+  .help-me {
+    font-size: 0.9375rem;
+    text-align: center;
+    color: #101112;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+  .help-me img {
+    width: 2.375rem;
+    vertical-align: middle;
+    margin-right: 0.125rem;
+  }
+  .help-me span {
+    color: #FF3D13;
+  }
+  .raise-info {
+    font-size: 0.9375rem;
+    text-align: center;
+    color: #101112;
+    font-weight: bold;
+    margin-top: 0.375rem;
+  }
+  .raise-info span {
+    color: #FF3D13;
+  }
+  .raise-js {
+    /* background: #ffffff; */
+    width: 100%;
+    border-radius: 0.875rem;
+    color: #101112;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.875rem 0 1.25rem;
+    position: absolute;
+    bottom: 0;
+  }
+  .look-yh {
+    text-align: center;
+    font-size: 0.5625rem;
+    color: #999999;
+    font-weight: 400;
+  }
+  .raise-btn {
+    width: 15.8125rem;
+    height: 3rem;
+    background:url(../assets/bargain/btn112x.png) no-repeat;
+    background-size: 100% 100%;
+    border-radius: 1.875rem;
+    margin: 1.25rem auto 0;
+    line-height: 3rem;
+    font-size: 1.3125rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+</style>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>新人见面礼</title>
+    <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script> -->
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+  
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1988929_5sizvcoiw6j.css">
+    <style>
+      #cnzz_stat_icon_1279314054 {
+          position: fixed;
+          bottom: 0;
+          width: 0px;
+          height: 0px;
+          overflow: hidden;
+          opacity: 0;
+      }
+      #cnzz_stat_icon_1279314054 a {
+          color: #fff;
+          text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
+    </noscript>
+    <div id="app"></div>
+    <!-- <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279275789'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279275789' type='text/javascript'%3E%3C/script%3E"));</script> -->
+    <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279314054'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1279314054' type='text/javascript'%3E%3C/script%3E"));</script>
+  </body>
+  <script type="text/javascript">
+    function setRem() {
+      var deviceWidth = document.documentElement.clientWidth;
+      document.documentElement.style.fontSize = deviceWidth/7.5 + "px";
+    }
+    setRem();
+  
+    window.onresize = setRem;
+  </script>
+</html>
